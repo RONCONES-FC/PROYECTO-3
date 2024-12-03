@@ -1,0 +1,22 @@
+[
+    {
+        "nombreActividad": "qq",
+        "duracionEnMinutos": 12,
+        "descripcion": "ww",
+        "nivelDeDificultad": "11",
+        "version": "s",
+        "ultimaFechaDeModificacion": "Tue Dec 03 10:47:21 COT 2024",
+        "fechaDeCreacion": "Tue Dec 03 10:47:21 COT 2024",
+        "ratingPromedio": 0.0
+    },
+    {
+        "nombreActividad": "111",
+        "duracionEnMinutos": 1,
+        "descripcion": "1",
+        "nivelDeDificultad": "1",
+        "version": "1",
+        "ultimaFechaDeModificacion": "Tue Dec 03 10:47:21 COT 2024",
+        "fechaDeCreacion": "Tue Dec 03 10:47:21 COT 2024",
+        "ratingPromedio": 0.0
+    }
+]
