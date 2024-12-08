@@ -1,43 +1,8 @@
 [
-    {
-        "nombreActividad": "Actividad 1",
-        "duracionEnMinutos": 30,
-        "descripcion": "Descripción 1",
-        "nivelDeDificultad": "Fácil",
-        "version": "1.0",
-        "ultimaFechaDeModificacion": "2024-01-02T10:00:00",
-        "fechaDeCreacion": "2024-01-02T10:00:00",
-        "ratingPromedio": 4.5
-    },
-    {
-        "nombreActividad": "Actividad 2",
-        "duracionEnMinutos": 60,
-        "descripcion": "Descripción 2",
-        "nivelDeDificultad": "Media",
-        "version": "1.1",
-        "ultimaFechaDeModificacion": "2024-03-05T10:00:00",
-        "fechaDeCreacion": "2024-03-05T10:00:00",
-        "ratingPromedio": 4.0
-    },
-    {
-        "nombreActividad": "Actividad 3",
-        "duracionEnMinutos": 90,
-        "descripcion": "Descripción 3",
-        "nivelDeDificultad": "Difícil",
-        "version": "2.0",
-        "ultimaFechaDeModificacion": "2024-07-15T10:00:00",
-        "fechaDeCreacion": "2024-07-15T10:00:00",
-        "ratingPromedio": 3.5
-    },
-    {
-        "nombreActividad": "Actividad 4",
-        "duracionEnMinutos": 120,
-        "descripcion": "Descripción 4",
-        "nivelDeDificultad": "Difícil",
-        "version": "2.1",
-        "ultimaFechaDeModificacion": "2024-12-20T10:00:00",
-        "fechaDeCreacion": "2024-12-20T10:00:00",
-        "ratingPromedio": 5.0
-    }
+    {"descripcion":"Descripción 1","nombreActividad":"Actividad 1","ultimaFechaDeModificacion":"2024-01-02T10:00:00","ratingPromedio":4.5,"nivelDeDificultad":"Fácil","version":"1.0","duracionEnMinutos":30,"fechaDeCreacion":"2024-01-02T10:00:00"},
+    {"descripcion":"Descripción 1","nombreActividad":"Actividad 1","ultimaFechaDeModificacion":"2024-01-01T10:00:00","ratingPromedio":4.5,"nivelDeDificultad":"Fácil","version":"1.0","duracionEnMinutos":30,"fechaDeCreacion":"2024-01-01T10:00:00"},
+    {"descripcion":"Descripción 1","nombreActividad":"Actividad 1","ultimaFechaDeModificacion":"2024-01-02T10:00:00","ratingPromedio":4.5,"nivelDeDificultad":"Fácil","version":"1.0","duracionEnMinutos":30,"fechaDeCreacion":"2024-01-02T10:00:00"},
+    {"descripcion":"Descripción 1","nombreActividad":"Actividad 1","ultimaFechaDeModificacion":"2024-01-02T10:00:00","ratingPromedio":4.5,"nivelDeDificultad":"Fácil","version":"1.0","duracionEnMinutos":30,"fechaDeCreacion":"2024-01-02T10:00:00"},
+    {"descripcion":"Descripción 1","nombreActividad":"Actividad 1","ultimaFechaDeModificacion":"2024-09-12T10:00:00","ratingPromedio":4.5,"nivelDeDificultad":"Fácil","version":"1.0","duracionEnMinutos":30,"fechaDeCreacion":"2024-09-12T10:00:00"},
+    {"descripcion":"bvsdv","nombreActividad":"qerfgbv","ultimaFechaDeModificacion":"2024-12-07T23:15:50","ratingPromedio":0.0,"nivelDeDificultad":"1234","version":"fds","duracionEnMinutos":23454,"fechaDeCreacion":"2024-12-07T23:15:50"}
 ]
-

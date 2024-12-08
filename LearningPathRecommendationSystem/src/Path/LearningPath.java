@@ -1,7 +1,11 @@
 package Path;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import Retroalimentacion.Rating;
 
 public class LearningPath {
@@ -11,12 +15,36 @@ public class LearningPath {
     private String nivelDeDificultad;
     private String version;
     private Date ultimaFechaDeModificacion;
-    private List<Actividad> actividades;
     private Date fechaDeCreacion;
+    private List<Actividad> actividades;
     private List<Rating> ratings;
     private double ratingPromedio;
 
-    // Constructor completo
+    // Constructor con fechas como Strings
+    public LearningPath(String nombreActividad, int duracionEnMinutos, String descripcion, String nivelDeDificultad,
+                        String version, String ultimaFechaDeModificacion, List<Actividad> actividades,
+                        String fechaDeCreacion, List<Rating> ratings, double ratingPromedio) {
+        this.nombreActividad = nombreActividad;
+        this.duracionEnMinutos = duracionEnMinutos;
+        this.descripcion = descripcion;
+        this.nivelDeDificultad = nivelDeDificultad;
+        this.version = version;
+        this.actividades = actividades != null ? actividades : new ArrayList<>();
+        this.ratings = ratings != null ? ratings : new ArrayList<>();
+        this.ratingPromedio = ratingPromedio;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            this.ultimaFechaDeModificacion = ultimaFechaDeModificacion != null
+                    ? dateFormat.parse(ultimaFechaDeModificacion)
+                    : null;
+            this.fechaDeCreacion = fechaDeCreacion != null ? dateFormat.parse(fechaDeCreacion) : null;
+        } catch (ParseException e) {
+            System.err.println("Error al parsear las fechas en el constructor: " + e.getMessage());
+        }
+    }
+
+    // Constructor completo con fechas como Date
     public LearningPath(String nombreActividad, int duracionEnMinutos, String descripcion, String nivelDeDificultad,
                         String version, Date ultimaFechaDeModificacion, List<Actividad> actividades,
                         Date fechaDeCreacion, List<Rating> ratings, double ratingPromedio) {
@@ -26,9 +54,9 @@ public class LearningPath {
         this.nivelDeDificultad = nivelDeDificultad;
         this.version = version;
         this.ultimaFechaDeModificacion = ultimaFechaDeModificacion;
-        this.actividades = actividades;
         this.fechaDeCreacion = fechaDeCreacion;
-        this.ratings = ratings;
+        this.actividades = actividades != null ? actividades : new ArrayList<>();
+        this.ratings = ratings != null ? ratings : new ArrayList<>();
         this.ratingPromedio = ratingPromedio;
     }
 
@@ -81,20 +109,20 @@ public class LearningPath {
         this.ultimaFechaDeModificacion = ultimaFechaDeModificacion;
     }
 
-    public List<Actividad> getActividades() {
-        return actividades;
-    }
-
-    public void setActividades(List<Actividad> actividades) {
-        this.actividades = actividades;
-    }
-
     public Date getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
     public void setFechaDeCreacion(Date fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
+    }
+
+    public List<Actividad> getActividades() {
+        return actividades;
+    }
+
+    public void setActividades(List<Actividad> actividades) {
+        this.actividades = actividades;
     }
 
     public List<Rating> getRatings() {

@@ -1,37 +1,40 @@
 package Persistencia;
 
 import Path.LearningPath;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class PersistenciaLearningPathJson {
 
+    private final SimpleDateFormat standardFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private final SimpleDateFormat alternativeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+
     public void guardarLearningPaths(String archivo, List<LearningPath> learningPaths) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (LearningPath lp : learningPaths) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("nombreActividad", lp.getNombreActividad());
+            jsonObject.put("duracionEnMinutos", lp.getDuracionEnMinutos());
+            jsonObject.put("descripcion", lp.getDescripcion());
+            jsonObject.put("nivelDeDificultad", lp.getNivelDeDificultad());
+            jsonObject.put("version", lp.getVersion());
+            jsonObject.put("ultimaFechaDeModificacion", lp.getUltimaFechaDeModificacion() != null ? standardFormat.format(lp.getUltimaFechaDeModificacion()) : null);
+            jsonObject.put("fechaDeCreacion", lp.getFechaDeCreacion() != null ? standardFormat.format(lp.getFechaDeCreacion()) : null);
+            jsonObject.put("ratingPromedio", lp.getRatingPromedio());
+            jsonArray.add(jsonObject);
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
-            writer.write("[\n");
-            for (int i = 0; i < learningPaths.size(); i++) {
-                LearningPath lp = learningPaths.get(i);
-                writer.write("    {\n");
-                writer.write("        \"nombreActividad\": \"" + lp.getNombreActividad() + "\",\n");
-                writer.write("        \"duracionEnMinutos\": " + lp.getDuracionEnMinutos() + ",\n");
-                writer.write("        \"descripcion\": \"" + lp.getDescripcion() + "\",\n");
-                writer.write("        \"nivelDeDificultad\": \"" + lp.getNivelDeDificultad() + "\",\n");
-                writer.write("        \"version\": \"" + lp.getVersion() + "\",\n");
-                writer.write("        \"ultimaFechaDeModificacion\": \"" + lp.getUltimaFechaDeModificacion() + "\",\n");
-                writer.write("        \"fechaDeCreacion\": \"" + lp.getFechaDeCreacion() + "\",\n");
-                writer.write("        \"ratingPromedio\": " + lp.getRatingPromedio() + "\n");
-                writer.write("    }");
-                if (i < learningPaths.size() - 1) {
-                    writer.write(",");
-                }
-                writer.write("\n");
-            }
-            writer.write("]");
+            writer.write(jsonArray.toJSONString());
         } catch (IOException e) {
             System.out.println("Error al guardar Learning Paths: " + e.getMessage());
         }
@@ -39,94 +42,40 @@ public class PersistenciaLearningPathJson {
 
     public List<LearningPath> cargarLearningPaths(String archivo) {
         List<LearningPath> learningPaths = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
-            StringBuilder jsonBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonBuilder.append(line.trim());
-            }
+            JSONParser parser = new JSONParser();
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
-            // Procesar el JSON manualmente
-            String json = jsonBuilder.toString().trim();
-            if (json.startsWith("[") && json.endsWith("]")) {
-                json = json.substring(1, json.length() - 1).trim(); // Eliminar corchetes externos
-                String[] pathsJson = json.split("},\\s*\\{"); // Separar objetos JSON
+            for (Object obj : jsonArray) {
+                JSONObject jsonObject = (JSONObject) obj;
 
-                for (String pathJson : pathsJson) {
-                    pathJson = pathJson.replace("{", "").replace("}", "").replace("\"", "").trim();
-                    String[] campos = pathJson.split(",");
+                String nombreActividad = (String) jsonObject.get("nombreActividad");
+                int duracionEnMinutos = ((Long) jsonObject.get("duracionEnMinutos")).intValue();
+                String descripcion = (String) jsonObject.get("descripcion");
+                String nivelDeDificultad = (String) jsonObject.get("nivelDeDificultad");
+                String version = (String) jsonObject.get("version");
+                String ultimaFechaDeModificacionStr = (String) jsonObject.get("ultimaFechaDeModificacion");
+                String fechaDeCreacionStr = (String) jsonObject.get("fechaDeCreacion");
+                double ratingPromedio = (Double) jsonObject.get("ratingPromedio");
 
-                    String nombreActividad = null;
-                    int duracionEnMinutos = 0;
-                    String descripcion = null;
-                    String nivelDeDificultad = null;
-                    String version = null;
-                    Date ultimaFechaDeModificacion = null;
-                    Date fechaDeCreacion = null;
-                    double ratingPromedio = 0.0;
+                Date ultimaFechaDeModificacion = parseDate(ultimaFechaDeModificacionStr);
+                Date fechaDeCreacion = parseDate(fechaDeCreacionStr);
 
-                    for (String campo : campos) {
-                        String[] keyValue = campo.split(":");
-                        if (keyValue.length == 2) {
-                            String key = keyValue[0].trim();
-                            String value = keyValue[1].trim();
-                            switch (key) {
-                                case "nombreActividad":
-                                    nombreActividad = value;
-                                    break;
-                                case "duracionEnMinutos":
-                                    duracionEnMinutos = Integer.parseInt(value);
-                                    break;
-                                case "descripcion":
-                                    descripcion = value;
-                                    break;
-                                case "nivelDeDificultad":
-                                    nivelDeDificultad = value;
-                                    break;
-                                case "version":
-                                    version = value;
-                                    break;
-                                case "ultimaFechaDeModificacion":
-                                    try {
-                                        ultimaFechaDeModificacion = dateFormat.parse(value);
-                                    } catch (ParseException e) {
-                                        System.out.println("Error al parsear la fecha de modificación: " + value);
-                                        ultimaFechaDeModificacion = new Date(); // Asignar fecha actual como predeterminada
-                                    }
-                                    break;
-                                case "fechaDeCreacion":
-                                    try {
-                                        fechaDeCreacion = dateFormat.parse(value);
-                                    } catch (ParseException e) {
-                                        System.out.println("Error al parsear la fecha de creación: " + value);
-                                        fechaDeCreacion = new Date(); // Asignar fecha actual como predeterminada
-                                    }
-                                    break;
-                                case "ratingPromedio":
-                                    ratingPromedio = Double.parseDouble(value);
-                                    break;
-                            }
-                        }
-                    }
-
-                    // Crear un objeto LearningPath y añadirlo a la lista
-                    if (nombreActividad != null && descripcion != null && nivelDeDificultad != null && version != null) {
-                        LearningPath path = new LearningPath(
-                                nombreActividad,
-                                duracionEnMinutos,
-                                descripcion,
-                                nivelDeDificultad,
-                                version,
-                                ultimaFechaDeModificacion != null ? ultimaFechaDeModificacion : new Date(),
-                                new ArrayList<>(), // Actividades
-                                fechaDeCreacion != null ? fechaDeCreacion : new Date(),
-                                new ArrayList<>(), // Ratings
-                                ratingPromedio
-                        );
-                        learningPaths.add(path);
-                    }
+                if (nombreActividad != null && descripcion != null && nivelDeDificultad != null && version != null) {
+                    LearningPath path = new LearningPath(
+                            nombreActividad,
+                            duracionEnMinutos,
+                            descripcion,
+                            nivelDeDificultad,
+                            version,
+                            ultimaFechaDeModificacion,
+                            new ArrayList<>(), // Actividades
+                            fechaDeCreacion,
+                            new ArrayList<>(), // Ratings
+                            ratingPromedio
+                    );
+                    learningPaths.add(path);
                 }
             }
         } catch (IOException e) {
@@ -135,5 +84,22 @@ public class PersistenciaLearningPathJson {
             System.out.println("Error al procesar el archivo JSON: " + e.getMessage());
         }
         return learningPaths;
+    }
+
+    private Date parseDate(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty() || dateStr.equalsIgnoreCase("null")) {
+            return null;
+        }
+
+        try {
+            return standardFormat.parse(dateStr);
+        } catch (ParseException e1) {
+            try {
+                return alternativeFormat.parse(dateStr);
+            } catch (ParseException e2) {
+                System.err.println("No se pudo parsear la fecha: " + dateStr);
+                return null;
+            }
+        }
     }
 }

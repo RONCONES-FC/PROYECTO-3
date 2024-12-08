@@ -5,6 +5,7 @@ import Path.LearningPath;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +30,19 @@ public class LearningPathsGit {
             List<LearningPath> learningPaths = persistencia.cargarLearningPaths("Datos/learningPaths.json");
 
             for (LearningPath lp : learningPaths) {
-                LocalDate fechaCreacion = lp.getFechaDeCreacion().toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
-                data.put(fechaCreacion, data.getOrDefault(fechaCreacion, 0) + 1);
+                // Imprime la fecha antes de procesarla
+                System.out.println("Fecha original (antes de procesar): " + lp.getFechaDeCreacion());
+
+                if (lp.getFechaDeCreacion() != null) {
+                    LocalDate fechaCreacion = lp.getFechaDeCreacion().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
+                    System.out.println("Fecha procesada: " + fechaCreacion);
+
+                    data.put(fechaCreacion, data.getOrDefault(fechaCreacion, 0) + 1);
+                } else {
+                    System.err.println("Fecha de creación nula para: " + lp.getNombreActividad());
+                }
             }
 
         } catch (Exception e) {
@@ -40,7 +50,14 @@ public class LearningPathsGit {
             e.printStackTrace();
         }
 
+        // Imprime el mapa final para diagnóstico
+        for (Map.Entry<LocalDate, Integer> entry : data.entrySet()) {
+            System.out.println("Mapa final -> Fecha: " + entry.getKey() + ", Actividades: " + entry.getValue());
+        }
+
         return data;
     }
+
 }
+
 
