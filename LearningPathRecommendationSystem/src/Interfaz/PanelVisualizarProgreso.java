@@ -1,51 +1,38 @@
 package Interfaz;
 
+import git.CalendarMap;
+import git.LearningPathsGit;
+import git.PanelDiaSemana;
+import git.PanelMeses;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PanelVisualizarProgreso extends JFrame {
+
     public PanelVisualizarProgreso() {
         setTitle("Visualizar Progreso - Learning Paths");
-        setSize(800, 400);
-        setLayout(new GridLayout(7, 52));
+        setSize(1800, 1400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        Map<LocalDate, Integer> actividadPorFecha = generarDatosSimulados();
+        // Crear paneles decorativos
+        PanelMeses monthLabels = new PanelMeses();
+        add(monthLabels, BorderLayout.NORTH);
 
-        for (int i = 0; i < 7 * 52; i++) {
-            JPanel celda = new JPanel();
-            celda.setBackground(Color.LIGHT_GRAY);
+        PanelDiaSemana dayLabels = new PanelDiaSemana();
+        add(dayLabels, BorderLayout.EAST);
 
-            LocalDate fecha = calcularFechaInicioAño().plusDays(i);
+        // Obtener datos de actividades
+        LearningPathsGit learningPathsGit = new LearningPathsGit();
+        Map<LocalDate, Integer> activityData = learningPathsGit.getDatos();
 
-            if (actividadPorFecha.containsKey(fecha)) {
-                int intensidad = actividadPorFecha.get(fecha);
-                celda.setBackground(calcularColor(intensidad));
-            }
+        // Crear y agregar el calendario principal
+        CalendarMap panelCalendario = new CalendarMap(activityData);
+        add(panelCalendario, BorderLayout.CENTER);
 
-            add(celda);
-        }
-
-        setLocationRelativeTo(null);
-    }
-
-    private Map<LocalDate, Integer> generarDatosSimulados() {
-        Map<LocalDate, Integer> datos = new HashMap<>();
-        datos.put(LocalDate.now().minusDays(1), 3);
-        datos.put(LocalDate.now().minusDays(2), 5);
-        datos.put(LocalDate.now().minusDays(10), 1);
-        return datos;
-    }
-
-    private LocalDate calcularFechaInicioAño() {
-        return LocalDate.of(LocalDate.now().getYear(), 1, 1);
-    }
-
-    private Color calcularColor(int intensidad) {
-        int verde = Math.max(255 - (intensidad * 50), 0);
-        return new Color(0, verde, 0);
+        setVisible(true);
     }
 }
-

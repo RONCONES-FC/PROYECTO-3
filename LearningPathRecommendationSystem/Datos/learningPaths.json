@@ -1,22 +1,43 @@
 [
     {
-        "nombreActividad": "qq",
-        "duracionEnMinutos": 12,
-        "descripcion": "ww",
-        "nivelDeDificultad": "11",
-        "version": "s",
-        "ultimaFechaDeModificacion": "Tue Dec 03 10:47:21 COT 2024",
-        "fechaDeCreacion": "Tue Dec 03 10:47:21 COT 2024",
-        "ratingPromedio": 0.0
+        "nombreActividad": "Actividad 1",
+        "duracionEnMinutos": 30,
+        "descripcion": "Descripción 1",
+        "nivelDeDificultad": "Fácil",
+        "version": "1.0",
+        "ultimaFechaDeModificacion": "2024-01-02T10:00:00",
+        "fechaDeCreacion": "2024-01-02T10:00:00",
+        "ratingPromedio": 4.5
     },
     {
-        "nombreActividad": "111",
-        "duracionEnMinutos": 1,
-        "descripcion": "1",
-        "nivelDeDificultad": "1",
-        "version": "1",
-        "ultimaFechaDeModificacion": "Tue Dec 03 10:47:21 COT 2024",
-        "fechaDeCreacion": "Tue Dec 03 10:47:21 COT 2024",
-        "ratingPromedio": 0.0
+        "nombreActividad": "Actividad 2",
+        "duracionEnMinutos": 60,
+        "descripcion": "Descripción 2",
+        "nivelDeDificultad": "Media",
+        "version": "1.1",
+        "ultimaFechaDeModificacion": "2024-03-05T10:00:00",
+        "fechaDeCreacion": "2024-03-05T10:00:00",
+        "ratingPromedio": 4.0
+    },
+    {
+        "nombreActividad": "Actividad 3",
+        "duracionEnMinutos": 90,
+        "descripcion": "Descripción 3",
+        "nivelDeDificultad": "Difícil",
+        "version": "2.0",
+        "ultimaFechaDeModificacion": "2024-07-15T10:00:00",
+        "fechaDeCreacion": "2024-07-15T10:00:00",
+        "ratingPromedio": 3.5
+    },
+    {
+        "nombreActividad": "Actividad 4",
+        "duracionEnMinutos": 120,
+        "descripcion": "Descripción 4",
+        "nivelDeDificultad": "Difícil",
+        "version": "2.1",
+        "ultimaFechaDeModificacion": "2024-12-20T10:00:00",
+        "fechaDeCreacion": "2024-12-20T10:00:00",
+        "ratingPromedio": 5.0
     }
 ]
+
